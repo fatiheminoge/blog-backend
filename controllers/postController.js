@@ -6,8 +6,17 @@ const Post = require("../models/postModel");
 // @route GET /api/goals
 // @access Public
 const getPosts = asynchandler(async (req, res) => {
-  const posts = await Post.find();
-  res.status(200).json({ posts });
+  var page = parseInt(req.query.page) || 0;
+  var limit = parseInt(req.query.limit) || 20;
+  var skip = page * Math.min(limit, 40);
+
+  const posts = await Post.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+  res
+    .status(200)
+    .json({ posts: posts, page: page, limit: limit, pageSize: posts.length });
 });
 
 // @desc Get post
@@ -49,7 +58,7 @@ const deletePost = asynchandler(async (req, res) => {
   if (post.admin.toString() !== req.admin._id.toString()) {
     res.status(401).json({ msg: "Unauthorized" });
   }
-  await Post.remove(req.params.id);
+  await Post.deleteOne({ _id: req.params.id });
   res.status(200).json({ _id: post._id });
 });
 
