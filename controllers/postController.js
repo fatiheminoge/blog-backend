@@ -3,7 +3,7 @@ const Post = require("../models/postModel");
 
 // Basic permission routes
 // @desc Get posts
-// @route GET /api/goals
+// @route GET /api/posts
 // @access Public
 const getPosts = asynchandler(async (req, res) => {
   var page = parseInt(req.query.page) || 0;
@@ -20,7 +20,7 @@ const getPosts = asynchandler(async (req, res) => {
 });
 
 // @desc Get post
-// @route GET /api/goals/:id
+// @route GET /api/posts/:id
 // @access Public
 const getPost = asynchandler(async (req, res) => {
   const post = await Post.findById(req.params.id);
@@ -29,7 +29,7 @@ const getPost = asynchandler(async (req, res) => {
 
 // Protected routes
 // @desc Create post
-// @route POST /api/goals/
+// @route POST /api/posts/
 // @access Private
 const createPost = asynchandler(async (req, res) => {
   const { title, content } = req.body;
@@ -44,7 +44,7 @@ const createPost = asynchandler(async (req, res) => {
 });
 
 // @desc Delete post
-// @route DELETE /api/goals/:id
+// @route DELETE /api/posts/:id
 // @access Private
 const deletePost = asynchandler(async (req, res) => {
   const post = await Post.findById(req.params.id);
@@ -63,7 +63,7 @@ const deletePost = asynchandler(async (req, res) => {
 });
 
 // @desc Update post
-// @route PUT /api/goals/:id
+// @route PUT /api/posts/:id
 // @access Private
 const updatePost = asynchandler(async (req, res) => {
   const post = await Post.findById(req.params.id);
@@ -84,7 +84,7 @@ const updatePost = asynchandler(async (req, res) => {
 });
 
 // @desc Delete all posts (only in development)
-// @route DELETE /api/goals/
+// @route DELETE /api/posts/
 // @access Public
 const deleteAll = asynchandler(async (req, res) => {
   const posts = await Post.find();
